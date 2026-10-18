@@ -152,38 +152,32 @@ function getAllPlayers() {
 // Required Lab Functions
 // ==========================================
 
-// 1. Returns the points scored by the given player name
 function numPointsScored(playerName) {
   const player = getAllPlayers().find(p => p.name === playerName);
   return player ? player.points : null;
 }
 
-// 2. Returns the shoe size of the given player name
 function shoeSize(playerName) {
   const player = getAllPlayers().find(p => p.name === playerName);
   if (!player) return null;
   return player.shoe !== undefined ? player.shoe : player.shoeSize;
 }
 
-// 3. Returns an array of the team’s colors given a team name
 function teamColors(teamName) {
   const team = getTeams().find(t => t.teamName === teamName);
   return team ? team.colors : null;
 }
 
-// 4. Returns an array of both team names
 function teamNames() {
   const teams = getTeams();
   return teams.map(t => t.teamName);
 }
 
-// 5. Returns an array of all players’ jersey numbers for a given team name
 function playerNumbers(teamName) {
   const team = getTeams().find(t => t.teamName === teamName);
   return team ? team.players.map(p => p.number) : null;
 }
 
-// 6. Returns an object with all stats for a given player name
 function playerStats(playerName) {
   const player = getAllPlayers().find(p => p.name === playerName);
   if (!player) return null;
@@ -197,7 +191,6 @@ function playerStats(playerName) {
   return stats;
 }
 
-// 7. Returns the number of rebounds for the player with the largest shoe size
 function bigShoeRebounds() {
   const players = getAllPlayers();
   if (players.length === 0) return null;
@@ -210,7 +203,6 @@ function bigShoeRebounds() {
   return largestShoePlayer.rebounds;
 }
 
-// 8. Determines which player scored the most points and returns their name
 function mostPointsScored() {
   const players = getAllPlayers();
   if (players.length === 0) return null;
@@ -221,7 +213,6 @@ function mostPointsScored() {
   return topScorer.name;
 }
 
-// 9. Identifies which team has the most total points
 function winningTeam() {
   const game = gameObject();
   const homePoints = game.home.players.reduce((sum, p) => sum + p.points, 0);
@@ -236,7 +227,6 @@ function winningTeam() {
   }
 }
 
-// 10. Finds the player with the longest name
 function playerWithLongestName() {
   const players = getAllPlayers();
   if (players.length === 0) return null;
@@ -247,7 +237,6 @@ function playerWithLongestName() {
   return longestNamePlayer.name;
 }
 
-// 11. Returns true if the player with the longest name has the most steals
 function doesLongNameStealATon() {
   const players = getAllPlayers();
   if (players.length === 0) return false;
@@ -261,4 +250,33 @@ function doesLongNameStealATon() {
   );
   
   return longestNamePlayer.name === mostStealsPlayer.name;
+}
+
+// ==========================================
+// Exports for Node.js and Browser
+// ==========================================
+const exportedFunctions = {
+  gameObject,
+  numPointsScored,
+  shoeSize,
+  teamColors,
+  teamNames,
+  playerNumbers,
+  playerStats,
+  bigShoeRebounds,
+  mostPointsScored,
+  winningTeam,
+  playerWithLongestName,
+  doesLongNameStealATon
+};
+
+// Export for Node.js
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = exportedFunctions;
+}
+
+// Export globally for browser / window
+const root = typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this);
+for (let key in exportedFunctions) {
+  root[key] = exportedFunctions[key];
 }
